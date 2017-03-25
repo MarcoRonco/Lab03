@@ -1,5 +1,7 @@
 package it.polito.tdp.spellchecker.model;
 
+import java.util.*;
+
 public class RichWord {
 	
 	private String parola;
@@ -25,5 +27,9 @@ public class RichWord {
 	public void setCorretta(boolean corretta) {
 		this.corretta = corretta;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "RichWord [parola=" + parola + ", corretta=" + corretta + "]";
+	}
 }

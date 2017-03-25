@@ -3,7 +3,7 @@ package it.polito.tdp.spellchecker.model;
 import java.io.*;
 import java.util.*;
 
-public class Dictionary {
+public class Dictionary implements Comparable<String>{
 
 	private List<String> dizionario = new ArrayList<String>();
 	
@@ -16,6 +16,7 @@ public class Dictionary {
 		 while ((word = br.readLine()) != null){ 
 			 dizionario.add(word);
 		 }
+		 Collections.sort(dizionario);
 		 br.close(); 
 	  } catch (IOException e){ 
 		 
@@ -27,63 +28,42 @@ public class Dictionary {
 	public List<RichWord> spellCheckText(List<String> inputTextList){
 		
 		List<RichWord> parole = new ArrayList<RichWord>();
-		boolean z;
+		int inizio;
+		int fine;
+		int m;
+		boolean g;
 		
 			for(String x : inputTextList){
-				z = false;
-				if((dizionario.size()%2)==0){
-					if(dizionario.get((dizionario.size()/2)).compareTo(x)==0){
-						parole.add(new RichWord(x, true));
-						z=true;
-						
-					} else if(dizionario.get((dizionario.size()/2)).compareTo(x)>0){
-						
-						for(int h = (dizionario.size()/2); h>0; h--){
-							if(dizionario.get(h).compareTo(x)==0){
-								parole.add(new RichWord(x, true));
-								z=true;
-								break;
-							}
-						}
-					} else {
-						
-						for(int h = (dizionario.size()/2); h<dizionario.size(); h++){
-							if(dizionario.get(h).compareTo(x)==0){
-								parole.add(new RichWord(x, true));
-								z=true;
-								break;
-							}
-						}
-					}
-				}else{
+				
+				inizio = 0;
+				fine = dizionario.size();
+				g = false;
+				while(inizio<fine && g ==false){
 					
-					if(dizionario.get((int)(dizionario.size()/2)+1).compareTo(x)==0){
-						parole.add(new RichWord(x, true));
-						z=true;
+					m = (fine+inizio)/2;
+
+					if(dizionario.get(m).compareTo(x)==0){
 						
-					} else if(dizionario.get((int)(dizionario.size()/2)+1).compareTo(x)>0){
+						g = true;
+					
+					}else if(dizionario.get(m).compareTo(x)>0){
+					
+						fine = m-1;
 						
-						for(int h = ((int)(dizionario.size()/2)+1); h>0; h--){
-							if(dizionario.get(h).compareTo(x)==0){
-								parole.add(new RichWord(x, true));
-								z=true;
-								break;
-							}
-						}
-					} else {
+					}else{
 						
-						for(int h = ((int)(dizionario.size()/2)+1); h<dizionario.size(); h++){
-							if(dizionario.get(h).compareTo(x)==0){
-								parole.add(new RichWord(x, true));
-								z=true;
-								break;
-							}
-						}
+						inizio = m+1;
+					
 					}
 				}
-				if(z == false)
-					parole.add(new RichWord(x, false));
+				parole.add(new RichWord(x, g));
 			}
+	
 		return parole;
+	}
+	
+	@Override
+	public int compareTo(String arg0) {
+		return this.compareTo(arg0);
 	}
 }
