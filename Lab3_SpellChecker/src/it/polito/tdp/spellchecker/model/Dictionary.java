@@ -28,38 +28,42 @@ public class Dictionary implements Comparable<String>{
 	public List<RichWord> spellCheckText(List<String> inputTextList){
 		
 		List<RichWord> parole = new ArrayList<RichWord>();
-		int inizio;
-		int fine;
-		int m;
-		boolean g;
 		
 			for(String x : inputTextList){
 				
-				inizio = 0;
-				fine = dizionario.size();
-				g = false;
-				while(inizio<fine && g ==false){
-					
-					m = (fine+inizio)/2;
-
-					if(dizionario.get(m).compareTo(x)==0){
-						
-						g = true;
-					
-					}else if(dizionario.get(m).compareTo(x)>0){
-					
-						fine = m-1;
-						
-					}else{
-						
-						inizio = m+1;
-					
-					}
-				}
-				parole.add(new RichWord(x, g));
+				parole.add(new RichWord(x, this.scandisci(x)));
 			}
 	
 		return parole;
+	}
+	
+	public boolean scandisci(String x){
+		
+		int inizio = 0;
+		int fine = dizionario.size();
+		boolean g = false;
+		
+		while(inizio<=fine || g ==false){
+			
+			int m = (fine+inizio)/2;
+
+			if(dizionario.get(m).toLowerCase().compareTo(x.toLowerCase())==0){
+				
+				g = true;
+			
+			}else if(dizionario.get(m).toLowerCase().compareTo(x.toLowerCase())>0){
+			
+				fine = m-1;
+				
+			}else{
+				
+				inizio = m+1;
+			
+			}
+			
+		}
+		
+		return g;
 	}
 	
 	@Override
